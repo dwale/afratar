@@ -2,6 +2,7 @@ require("dotenv").config();
 
 import express from "express";
 import { s3Router } from "./routes";
+import { errorMiddleware } from "./middleware";
 
 const app = express();
 app.use(express.json());
@@ -31,5 +32,7 @@ app.all("*", (req, res, next) => {
     })
   );
 });
+
+app.use(errorMiddleware);
 
 module.exports = app;
