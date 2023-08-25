@@ -1,17 +1,15 @@
 import { Request, Response } from "express";
-import { getImageFromS3 } from "../services";
+import { getRandomImage } from "../services";
 
 const bucketName = process.env.AWS_BUCKET_NAME ?? "";
 
 export const getImage = async (req: Request, res: Response) => {
   console.log("here");
-  const { imageName } = req.params;
-  const objectKey = `${imageName}`;
 
   console.log(bucketName, "bucketName");
 
   try {
-    const signedUrl = await getImageFromS3(bucketName, objectKey);
+    const signedUrl = await getRandomImage(bucketName);
 
     // Redirect the client to the signed URL
     // return res.send([signedUrl]);

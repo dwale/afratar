@@ -3,6 +3,4 @@ import * as s3Controller from "../controllers";
 
 export const s3Router: express.Router = express.Router();
 
-
-
-s3Router.route("/images/:imageName").get(s3Controller.getImage);
+s3Router.route("/images").get(s3Controller.getImage);
