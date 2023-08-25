@@ -1,7 +1,7 @@
+require("dotenv").config();
+
 import express from "express";
 import { s3Router } from "./routes";
-
-require("dotenv").config();
 
 const app = express();
 app.use(express.json());
@@ -15,7 +15,7 @@ app.get("/ping", (_req: any, res: { send: (arg0: string) => any }) =>
   res.send(`pong`)
 );
 
-app.use("v1/s3", s3Router);
+app.use("/v1", s3Router);
 
 const PORT = process.env.PORT ?? 3000;
 
