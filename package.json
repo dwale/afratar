@@ -2,7 +2,7 @@
   "name": "afratar",
   "version": "1.0.0",
   "description": "",
-  "main": "index.",
+  "main": "app.js",
   "build": "tsc",
   "scripts": {
     "dev": "nodemon --exec ts-node src/app.ts",
