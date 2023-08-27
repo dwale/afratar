@@ -5,5 +5,5 @@ import { validateGetRandomImageQuery } from "../validators";
 export const getRandomImage: express.Router = express.Router();
 
 getRandomImage
-  .route("/images")
+  .route("/images/:imageId")
   .get(validateGetRandomImageQuery, getRandomImageController.getImage);

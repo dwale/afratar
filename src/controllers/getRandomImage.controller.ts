@@ -7,8 +7,15 @@ const bucketName = process.env.AWS_BUCKET_NAME ?? "";
 
 export const getImage: any = async (req: Request, res: Response) => {
   try {
-    let imageBuffer = await getRandomImage(bucketName);
     const { size, format, gender } = req.query;
+    const imageIdFromUser = req.params.imageId;
+    console.log(imageIdFromUser, "params req");
+
+    let imageBuffer = await getRandomImage(
+      bucketName,
+      imageIdFromUser,
+      gender as string
+    );
 
     if (size) {
       imageBuffer = await resizeImage(size as string, imageBuffer);

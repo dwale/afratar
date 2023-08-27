@@ -10,7 +10,8 @@ const allowedImageFormats = ["jpg", "webp", "svg", "png"];
 // });
 //fix validation
 const sizeSchema = Joi.string().allow(validSizes.join(","));
-const formatSchema = Joi.string().allow(validSizes.join(","));
+const formatSchema = Joi.string().allow(allowedImageFormats.join(","));
+const genderSchema = Joi.string().allow("male", "female");
 
 export const validateGetRandomImageQuery: any = (
   req: any,
