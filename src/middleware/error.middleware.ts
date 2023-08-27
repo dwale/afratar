@@ -12,11 +12,9 @@ export function errorMiddleware(
   if (err instanceof CelebrateError) {
     const errorLog: any[] = [];
     err.details.forEach((errorMessage) => {
-      console.log(JSON.stringify(errorMessage), "errorMessage");
 
       errorLog.push(formatJOIErrorMessage(errorMessage.details[0].message));
     });
-    console.log(err.details, "message");
 
     return res.status(400).json({
       error: "Validation failed",

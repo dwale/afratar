@@ -9,7 +9,6 @@ export const getImage: any = async (req: Request, res: Response) => {
   try {
     const { size, format, gender } = req.query;
     const imageIdFromUser = req.params.imageId;
-    console.log(imageIdFromUser, "params req");
 
     let imageBuffer = await getRandomImage(
       bucketName,

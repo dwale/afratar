@@ -27,16 +27,12 @@ export const getRandomImage = async (
       }
       const images = imageObjects.Contents;
 
-      console.log(images, "all images");
 
       if (images) {
-        console.log(imageIdFromUser, "imageIdFromUser");
 
         const randomIndex = getImageId(imageIdFromUser, images.length);
-        console.log(randomIndex, "randomIndex");
 
         const randomObject = images[randomIndex];
-        console.log(randomObject, "randomObject");
 
         resolve(getImageByKey(bucketName, randomObject.Key as string));
       }

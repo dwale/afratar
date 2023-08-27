@@ -1,16 +1,8 @@
 import { Joi, celebrate } from "celebrate";
+import { ALLOWED_IMAGE_FORMATS, VALID_IMAGE_SIZES } from "../constants ";
 
-const validSizes = ["200x200", "100x100", "300x300"];
-
-const allowedImageFormats = ["jpg", "webp", "svg", "png"];
-//TODO: account for multiple params
-// export const getRandomImageSchema = Joi.object({
-//   size: Joi.string().valid(...validSizes).required(),
-//   set: Joi.any().allow("a").required(),
-// });
-//fix validation
-const sizeSchema = Joi.string().allow(validSizes.join(","));
-const formatSchema = Joi.string().allow(allowedImageFormats.join(","));
+const sizeSchema = Joi.string().allow(...VALID_IMAGE_SIZES);
+const formatSchema = Joi.string().valid(...ALLOWED_IMAGE_FORMATS);
 const genderSchema = Joi.string().allow("male", "female");
 
 export const validateGetRandomImageQuery: any = (
@@ -18,12 +10,11 @@ export const validateGetRandomImageQuery: any = (
   res: any,
   next: any
 ) => {
-  console.log(req.url);
-  console.log(validSizes);
   const schema = celebrate({
     query: {
       size: sizeSchema,
-      format: allowedImageFormats,
+      format: formatSchema,
+      gender: genderSchema,
     },
   });
 

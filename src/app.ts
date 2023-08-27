@@ -9,9 +9,8 @@ app.use(express.json());
 
 app.use((req, res, next) => {
   console.log(`Received request for: ${req.method} ${req.url}`);
-  next(); // Call the next middleware or route handler
+  next();
 });
-// https://robohash.org/559939499399493949?set=1&&size=200x200
 app.get("/ping", (_req: any, res: { send: (arg0: string) => any }) =>
   res.send(`pong`)
 );
@@ -29,6 +28,7 @@ app.all("*", (req, res, next) => {
   next(
     res.json({
       message: "Route not found",
+      code: "404",
     })
   );
 });
