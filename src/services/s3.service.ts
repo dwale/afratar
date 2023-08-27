@@ -18,25 +18,43 @@ export const getRandomImage = async (
   gender?: string
 ): Promise<Buffer> => {
   return new Promise((resolve, reject) => {
-    const params: AWS.S3.ListObjectsRequest = { Bucket: bucketName };
+    try {
+      const params: AWS.S3.ListObjectsRequest = { Bucket: bucketName };
 
-    s3.listObjects(params, (error, imageObjects) => {
-      if (error) {
-        console.error("Error listing objects:", error);
-        return;
-      }
-      const images = imageObjects.Contents;
+      s3.listObjects(params, (error, imageObjects) => {
+        if (error) {
+          const params: AWS.S3.ListObjectsRequest = { Bucket: bucketName };
 
+          s3.listObjects(params, (error, imageObjects) => {
+            if (error) {
+              throw error;
+            }
+            const images = imageObjects.Contents;
 
-      if (images) {
+            if (images) {
+              const randomIndex = getImageId(imageIdFromUser, images.length);
 
-        const randomIndex = getImageId(imageIdFromUser, images.length);
+              const randomObject = images[randomIndex];
 
-        const randomObject = images[randomIndex];
+              resolve(getImageByKey(bucketName, randomObject.Key as string));
+            }
+          });
+        }
+        const images = imageObjects.Contents;
 
-        resolve(getImageByKey(bucketName, randomObject.Key as string));
-      }
-    });
+        if (images) {
+          const randomIndex = getImageId(imageIdFromUser, images.length);
+
+          const randomObject = images[randomIndex];
+
+          console.log(randomObject, randomIndex);
+
+          resolve(getImageByKey(bucketName, randomObject.Key as string));
+        }
+      });
+    } catch (error) {
+      throw error;
+    }
   });
 };
 
@@ -44,24 +62,18 @@ const getImageByKey = async (
   bucketName: string,
   objectKey: string
 ): Promise<Buffer> => {
-  const params: AWS.S3.GetObjectRequest = {
-    Bucket: bucketName,
-    Key: objectKey,
-  };
+  try {
+    const params: AWS.S3.GetObjectRequest = {
+      Bucket: bucketName,
+      Key: objectKey,
+    };
 
-  const { Body } = await s3
-    .getObject({ Bucket: bucketName, Key: objectKey })
-    .promise();
+    const { Body } = await s3
+      .getObject({ Bucket: bucketName, Key: objectKey })
+      .promise();
 
-  return Body as Buffer;
-  // return new Promise((resolve, reject) => {
-
-  //   s3.getSignedUrl("getObject", params, (err, signedUrl) => {
-  //     if (err) {
-  //       reject(err);
-  //     } else {
-  //       resolve(signedUrl);
-  //     }
-  //   });
-  // });
+    return Body as Buffer;
+  } catch (error) {
+    throw error;
+  }
 };
