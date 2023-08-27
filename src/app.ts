@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 import express from "express";
-import { s3Router } from "./routes";
+import { getRandomImage } from "./routes";
 import { errorMiddleware } from "./middleware";
 
 const app = express();
@@ -16,7 +16,7 @@ app.get("/ping", (_req: any, res: { send: (arg0: string) => any }) =>
   res.send(`pong`)
 );
 
-app.use("/v1", s3Router);
+app.use("/v1", getRandomImage);
 
 const PORT = process.env.PORT ?? 3000;
 

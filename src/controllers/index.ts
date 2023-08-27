@@ -1,1 +1,1 @@
-export * from "./s3.controller"
+export * from "./getRandomImage.controller"

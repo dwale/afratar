@@ -1,11 +1,13 @@
 import { Joi, celebrate } from "celebrate";
 
 const validSizes = ["200x200", "100x100", "300x300"];
+//TODO: account for multiple params
 // export const getRandomImageSchema = Joi.object({
 //   size: Joi.string().valid(...validSizes).required(),
 //   set: Joi.any().allow("a").required(),
 // });
-const sizeSchema = Joi.string().allow(validSizes.join(",")).required();
+//fix validation
+const sizeSchema = Joi.string().allow(validSizes.join(","));
 
 export const validateGetRandomImageQuery: any = (
   req: any,

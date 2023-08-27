@@ -1,1 +1,1 @@
-export * from './s3.routes'
+export * from "./getRandomImage.routes";
