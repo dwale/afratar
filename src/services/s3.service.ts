@@ -11,6 +11,18 @@ AWS.config.update({
 });
 
 const s3 = new AWS.S3();
+/**
+ * The function `getRandomImage` retrieves a random image from an AWS S3 bucket based on the provided
+ * bucket name, image ID, and optional gender.
+ * @param {string} bucketName - The `bucketName` parameter is a string that represents the name of the
+ * S3 bucket where the images are stored.
+ * @param {string} imageIdFromUser - The `imageIdFromUser` parameter is a string that represents the ID
+ * of the image provided by the user.
+ * @param {string} [gender] - The `gender` parameter is an optional parameter that specifies the gender
+ * of the image to retrieve. It can be either "male" or "female". If the `gender` parameter is not
+ * provided, the function will retrieve a random image regardless of gender.
+ * @returns a Promise that resolves to a Buffer.
+ */
 
 export const getRandomImage = async (
   bucketName: string,
@@ -47,8 +59,6 @@ export const getRandomImage = async (
 
           const randomObject = images[randomIndex];
 
-          console.log(randomObject, randomIndex);
-
           resolve(getImageByKey(bucketName, randomObject.Key as string));
         }
       });
@@ -58,6 +68,16 @@ export const getRandomImage = async (
   });
 };
 
+/**
+ * The function `getImageByKey` retrieves an image from an AWS S3 bucket using the provided bucket name
+ * and object key.
+ * @param {string} bucketName - The `bucketName` parameter is a string that represents the name of the
+ * S3 bucket where the image is stored.
+ * @param {string} objectKey - The `objectKey` parameter is a string that represents the key or name of
+ * the object you want to retrieve from the S3 bucket. It is used to uniquely identify the object
+ * within the bucket.
+ * @returns The function `getImageByKey` returns a `Promise` that resolves to a `Buffer` object.
+ */
 const getImageByKey = async (
   bucketName: string,
   objectKey: string
