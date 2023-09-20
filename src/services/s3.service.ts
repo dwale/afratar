@@ -35,22 +35,7 @@ export const getRandomImage = async (
 
       s3.listObjects(params, (error, imageObjects) => {
         if (error) {
-          const params: AWS.S3.ListObjectsRequest = { Bucket: bucketName };
-
-          s3.listObjects(params, (error, imageObjects) => {
-            if (error) {
-              throw error;
-            }
-            const images = imageObjects.Contents;
-
-            if (images) {
-              const randomIndex = getImageId(imageIdFromUser, images.length);
-
-              const randomObject = images[randomIndex];
-
-              resolve(getImageByKey(bucketName, randomObject.Key as string));
-            }
-          });
+          throw error;
         }
         const images = imageObjects.Contents;
 
@@ -58,6 +43,8 @@ export const getRandomImage = async (
           const randomIndex = getImageId(imageIdFromUser, images.length);
 
           const randomObject = images[randomIndex];
+
+          console.log(randomObject, "second");
 
           resolve(getImageByKey(bucketName, randomObject.Key as string));
         }
@@ -91,6 +78,8 @@ const getImageByKey = async (
     const { Body } = await s3
       .getObject({ Bucket: bucketName, Key: objectKey })
       .promise();
+
+    console.log("Second", Body);
 
     return Body as Buffer;
   } catch (error) {

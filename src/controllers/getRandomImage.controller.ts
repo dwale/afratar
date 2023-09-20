@@ -1,17 +1,15 @@
 import { Request, Response } from "express";
 import { getRandomImage, reformatImage, resizeImage } from "../services";
 import { ImageFormat } from "../types";
-import { DEFAULT_FORMAT } from "../constants ";
+import { BUCKET, DEFAULT_FORMAT } from "../constants ";
 
 import axios from "axios";
 
-const bucketName = process.env.AWS_BUCKET_NAME ?? "";
-
 export const getImage: any = async (req: Request, res: Response) => {
-  console.log(req.headers, "request");
+  console.log(req.ip, "request");
   try {
     const referringDomain =
-      req.headers["referer"] || req.headers["origin"] || "Unknown";
+      req.get("referer") || req.get("origin") || "Unknown";
 
     const userIpAddress = req.socket.remoteAddress;
 
@@ -20,10 +18,14 @@ export const getImage: any = async (req: Request, res: Response) => {
     );
     const country = ipinfoResponse.data.country;
 
-    console.log(`Referring Domain: ${referringDomain}`);
+    console.log(`Referring Domain: ${referringDomain} ${req.ip}`);
     console.log(`User's Country: ${country}`);
     const { size, format, gender } = req.query;
     const imageIdFromUser = req.params.imageId;
+
+    const bucketName =
+      BUCKET[String(gender).toUpperCase() as "MALE" | "FEMALE"];
+    console.log(bucketName, "bucketName");
 
     let imageBuffer = await getRandomImage(
       bucketName,
