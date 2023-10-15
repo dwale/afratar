@@ -3,23 +3,8 @@ import { getRandomImage, reformatImage, resizeImage } from "../services";
 import { ImageFormat } from "../types";
 import { BUCKET, DEFAULT_FORMAT } from "../constants ";
 
-import axios from "axios";
-
 export const getImage: any = async (req: Request, res: Response) => {
-  console.log(req.ip, "request");
   try {
-    const referringDomain =
-      req.get("referer") || req.get("origin") || "Unknown";
-
-    const userIpAddress = req.socket.remoteAddress;
-
-    const ipinfoResponse = await axios.get(
-      `https://ipinfo.io/${userIpAddress}/json`
-    );
-    const country = ipinfoResponse.data.country;
-
-    console.log(`Referring Domain: ${referringDomain} ${req.ip}`);
-    console.log(`User's Country: ${country}`);
     const { size, format, gender } = req.query;
     const imageIdFromUser = req.params.imageId;
 
